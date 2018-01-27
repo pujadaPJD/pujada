@@ -3,8 +3,8 @@ pragma solidity ^0.4.16;
 contract Owned {
     address public owner;
     
-	event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
-	
+    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+    
     function Owned() public {
         owner = msg.sender;
     }
@@ -17,7 +17,7 @@ contract Owned {
     function transferOwnership(address newOwner) onlyOwner public {
         require(newOwner != address(0));
         OwnershipTransferred(owner, newOwner);        
-		owner = newOwner;
+        owner = newOwner;
     }
 }
 
@@ -67,16 +67,16 @@ contract Pausable is Owned {
 
 interface tokenRecipient { function receiveApproval(address _from, uint256 _value, address _token, bytes _extraData) public; }
 
-contract ERC20 {	
-	function totalSupply() public view returns (uint256 supply);
-	function balanceOf(address _owner) public view returns (uint256 balance); 
+contract ERC20 {    
+    function totalSupply() public view returns (uint256 supply);
+    function balanceOf(address _owner) public view returns (uint256 balance); 
     function allowed(address _owner, address _spender) public view returns (uint256 remaining);
    
     function transfer(address _to, uint256 _value) public returns (bool success);
     function transferFrom(address _from, address _to, uint256 _value) public returns (bool success);
-	function approve(address _spender, uint256 _value) public returns (bool success);
-	
-	event Approval(address indexed tokenOwner, address indexed spender, uint tokens);
+    function approve(address _spender, uint256 _value) public returns (bool success);
+    
+    event Approval(address indexed tokenOwner, address indexed spender, uint tokens);
     event Transfer(address indexed from, address indexed to, uint256 value);
 }
 
@@ -91,16 +91,16 @@ contract PuJaDaToken is ERC20, Owned, Pausable {
     // This creates an array with all balances
     mapping (address => uint256) public balanceOf;
     
-	mapping (address => mapping (address => uint256)) public allowance;
+    mapping (address => mapping (address => uint256)) public allowance;
 
     // This generates a public event on the blockchain that will notify clients
     event Transfer(address indexed from, address indexed to, uint256 value);
 
     // This notifies clients about the amount burnt
     event Burn(address indexed from, uint256 value);
-	
-	// This notifies approve function
-	event Approval(address indexed tokenOwner, address indexed spender, uint tokens);
+    
+    // This notifies approve function
+    event Approval(address indexed tokenOwner, address indexed spender, uint tokens);
 
     /**
      * Constrctor function
@@ -120,17 +120,17 @@ contract PuJaDaToken is ERC20, Owned, Pausable {
  
     /**
      * Don't accept ETH to the contract address
-     */	
+     */ 
     function () public payable {
         revert();
-    }	
+    }   
 
     /**
     * Total number of tokens in existence
-    */		
-	function totalSupply() public view returns (uint256 supply) {
-	  return totalSupply;
-    }	
+    */      
+    function totalSupply() public view returns (uint256 supply) {
+      return totalSupply;
+    }   
 
     /**
     * Gets the balance of the specified address.
@@ -139,8 +139,8 @@ contract PuJaDaToken is ERC20, Owned, Pausable {
     */
     function balanceOf(address _owner) public view returns (uint256 balance) {
       return balanceOf[_owner];
-    }	
-	
+    }   
+    
     /**
      * Function to check the amount of tokens that an owner allowed to a spender.
      * @param _owner address The address which owns the funds.
@@ -150,7 +150,7 @@ contract PuJaDaToken is ERC20, Owned, Pausable {
     function allowed(address _owner, address _spender) public view returns (uint256 remaining) {
       return allowance[_owner][_spender];
     }
-	
+    
     /**
      * Internal transfer, only can be called by this contract
      */
@@ -182,7 +182,7 @@ contract PuJaDaToken is ERC20, Owned, Pausable {
      */
     function transfer(address _to, uint256 _value) public whenNotPaused returns (bool success) {
         _transfer(msg.sender, _to, _value);
-		return true;
+        return true;
     }
 
     /**
@@ -211,7 +211,7 @@ contract PuJaDaToken is ERC20, Owned, Pausable {
      */
     function approve(address _spender, uint256 _value) public whenNotPaused returns (bool success) {
         allowance[msg.sender][_spender] = _value;
-		Approval(msg.sender, _spender, _value);
+        Approval(msg.sender, _spender, _value);
         return true;
     }
 
@@ -231,7 +231,7 @@ contract PuJaDaToken is ERC20, Owned, Pausable {
             return true;
         }
     }
-	
+    
     /**
      * Destroy tokens
      *
