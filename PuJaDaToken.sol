@@ -320,7 +320,7 @@ contract PuJaDaToken is PausableToken, BurnableToken {
   string public name = "PuJaDa";
   string public symbol = "PJD";
   uint public decimals = 18;
-  uint256 public INITIAL_SUPPLY = 500000000 * (10 ** uint256(decimals));
+  uint256 public INITIAL_SUPPLY = 1000000000 * (10 ** uint256(decimals));
   
   
   function PuJaDaToken() public {
