@@ -106,7 +106,7 @@ contract Pausable is Ownable {
   }
 }
 
-contract FreezableToken is Ownable {
+contract Freezable is Ownable {
 
   mapping (address => bool) public frozenAccount;
   event FrozenFunds(address indexed target, bool frozen);
@@ -238,7 +238,9 @@ contract StandardToken is ERC20, BasicToken {
    * @param _addedValue The amount of tokens to increase the allowance by.
    */
   function increaseApproval(address _spender, uint _addedValue) public returns (bool) {
-    allowed[msg.sender][_spender] = allowed[msg.sender][_spender].add(_addedValue);
+    uint newValue = allowed[msg.sender][_spender].add(_addedValue);
+	require(newValue <= balances[msg.sender]);
+	allowed[msg.sender][_spender] = newValue;
     Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
     return true;
   }
@@ -289,7 +291,7 @@ contract BurnableToken is StandardToken, Ownable {
   }
 }
 
-contract PausableToken is StandardToken, Pausable, FreezableToken {
+contract PausableToken is StandardToken, Pausable, Freezable {
 
   function transfer(address _to, uint256 _value) public whenNotPaused returns (bool) {
     require(!frozenAccount[msg.sender]);                // Check if sender is frozen
